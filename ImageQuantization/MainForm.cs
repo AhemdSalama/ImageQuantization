@@ -1,11 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ImageQuantization
@@ -77,13 +72,12 @@ namespace ImageQuantization
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             for (int i = 0; i < height;i++ )
+            for (int j = 0; j < width; j++)
             {
-                for (int j = 0 ; j <width;j++)
-                {
-                    int value = RGBToInt(ImageMatrix[i, j].red, ImageMatrix[i, j].green, ImageMatrix[i, j].blue);
-                    uniqeColors.Add(value);
-                }
+                int value = RGBToInt(ImageMatrix[i, j].red, ImageMatrix[i, j].green, ImageMatrix[i, j].blue);
+                uniqeColors.Add(value);
             }
+
             stopwatch.Stop();
             TimeSpan stopwatchElapsed = stopwatch.Elapsed;
             MessageBox.Show((Convert.ToInt32(stopwatchElapsed.TotalSeconds)).ToString());
@@ -96,14 +90,16 @@ namespace ImageQuantization
             {
                 rgbPixel rgb = IntToRGB(c);
                 RGBPixel rgbcolor = new RGBPixel();
-                rgbcolor.red = int.Parse(rgb);
+                rgbcolor.red = (byte)(rgb.red);
+                rgbcolor.green = (byte)(rgb.green);
+                rgbcolor.blue = (byte)(rgb.blue);
 
-                //ucolors.Add();
+                ucolors.Add(rgbcolor);
             }
             s2.Stop();
             TimeSpan se2 = s2.Elapsed;
             MessageBox.Show((Convert.ToInt32(se2.TotalSeconds)).ToString());
-           /*
+           
             // STEP[2] Get Distance between each color 
             Edge edge ;
             double cost=0;
@@ -130,7 +126,7 @@ namespace ImageQuantization
             s3.Stop();
             TimeSpan se3 = s3.Elapsed;
             MessageBox.Show((Convert.ToInt32(se3.TotalSeconds)).ToString());
-            */
+            
 
                 //********************
                 ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
