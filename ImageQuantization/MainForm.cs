@@ -80,9 +80,9 @@ namespace ImageQuantization
 
 
         // Return the function with the smallest cost
-        static int minKey (int[] key, bool []mstSet)
+        static int minKey (double[] key, bool []mstSet)
         {
-            int min = int.MaxValue, min_index = -1;
+            double min = int.MaxValue;int  min_index = -1;
             for (int v = 0 ; v < V ; v++)
             {
                 if(mstSet[v] == false && key[v]<min)
@@ -137,7 +137,7 @@ namespace ImageQuantization
             V = uniqeColors.Count;
             // Key values used to pick 
             // minimum weight edge in cut 
-            int[] key = new int[V];        // cost of vertices
+            double[] key = new double[V];        // cost of vertices
 
             // Array to store constructed MST 
             int[] parent = new int[V];     // parents
@@ -146,7 +146,7 @@ namespace ImageQuantization
             // not yet included in MST 
             bool[] mstSet = new bool[V];   // visited verticies
             
-            int cost = 0;
+            double cost = 0;
             double sum = 0;
             int dred, dgreen, dblue; // contain deffrence 
             int size = ucolors.Count;
@@ -173,7 +173,7 @@ namespace ImageQuantization
             parent[0] = -1;
 
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < V; i++)
             {
                 // Pick thd minimum key vertex 
                 // from the set of vertices 
@@ -190,16 +190,16 @@ namespace ImageQuantization
                 Edge edge;
 
                 //Loop To Get the Minmum Cost for edge connedted to the picked V
-                for (int j = i + 1; j < size; j++)
+                for (int j = 0 ; j < V; j++)
                 {
-                    dred = ucolors[i].red - ucolors[j].red;
-                    dgreen = ucolors[i].green - ucolors[j].green;
-                    dblue = ucolors[i].blue - ucolors[j].blue;
+                    dred = ucolors[u].red - ucolors[j].red;
+                    dgreen = ucolors[u].green - ucolors[j].green;
+                    dblue = ucolors[u].blue - ucolors[j].blue;
                     sum = (dred * dred) + (dgreen * dgreen) + (dblue * dblue);
-                    cost = (int)Math.Sqrt(sum);
-                    edge = new Edge(i, j, cost);
+                    cost = Math.Sqrt(sum);
+                    //edge = new Edge(j, i, cost);
 
-                    edges.Add(edge);
+                    //edges.Add(edge);
 
                     // graph[u][v] is non zero only 
                     // for adjacent vertices of m 
@@ -207,7 +207,7 @@ namespace ImageQuantization
                     // not yet included in MST Update 
                     // the key only if graph[u][v] is 
                     // smaller than key[v] 
-                    if (mstSet[j]== false && cost < key[j])
+                    if (mstSet[j]== false && cost < key[j] && u != j)
                     {
                         parent[j] = u;
                         key[j] = cost;
@@ -216,11 +216,12 @@ namespace ImageQuantization
                 
             }
             
-            int MSTSum = 0;
-            foreach (int x in key)
-                MSTSum += x;
-
-            
+            double MSTSum = 0;
+            for (int i = 0; i < V; i++ )
+            {
+                MSTSum += Math.Round(key[i],1);
+            }
+                MSTSum = Math.Round(MSTSum, 1);
 
         }
 
