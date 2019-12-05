@@ -218,10 +218,9 @@ namespace ImageQuantization
             
             double MSTSum = 0;
             for (int i = 0; i < V; i++ )
-            {
                 MSTSum += Math.Round(key[i],1);
-            }
-                MSTSum = Math.Round(MSTSum, 1);
+
+            MSTSum = Math.Round(MSTSum, 1);
 
         }
 
