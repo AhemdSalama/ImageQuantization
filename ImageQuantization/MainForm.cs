@@ -187,7 +187,7 @@ namespace ImageQuantization
                 //To store cost of all edges edges coneected 
                 //To the vertive I Picked
                 //Fill It Everytime 
-                Edge edge;
+                //Edge edge;
 
                 //Loop To Get the Minmum Cost for edge connedted to the picked V
                 for (int j = 0 ; j < V; j++)
@@ -218,7 +218,7 @@ namespace ImageQuantization
             
             double MSTSum = 0;
             for (int i = 0; i < V; i++ )
-                MSTSum += Math.Round(key[i],1);
+                MSTSum += Math.Round(key[i],2);
 
             MSTSum = Math.Round(MSTSum, 1);
 
