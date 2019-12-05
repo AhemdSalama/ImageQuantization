@@ -105,7 +105,8 @@ namespace ImageQuantization
 
             //TIME : O(H*W)
             //SPACE : O(D^2)
-            
+
+            int counter = uniqeColors.Count;
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
@@ -113,11 +114,23 @@ namespace ImageQuantization
                     RGBHash.Add(ImageMatrix[i, j]);
                     int value = RGBToInt(ImageMatrix[i, j].red, ImageMatrix[i, j].green, ImageMatrix[i, j].blue);
                     uniqeColors.Add(value);
+                    if (uniqeColors.Count > counter)
+                    {
+                        rgbPixel rgb = IntToRGB(value);
+                        RGBPixel rgbcolor = new RGBPixel();
+                        rgbcolor.red = (byte)(rgb.red);
+                        rgbcolor.green = (byte)(rgb.green);
+                        rgbcolor.blue = (byte)(rgb.blue);
+                        ucolors.Add(rgbcolor);
+
+                        counter++;
+                    }
                 }
             }
 
 
             //TIME: Exact SIZE OF HASHSET
+           /*
             foreach (var c in uniqeColors)
             {
                 rgbPixel rgb = IntToRGB(c);
@@ -128,7 +141,7 @@ namespace ImageQuantization
 
                 ucolors.Add(rgbcolor);
             }
-
+            */
 
 
             // STEP[2] Get Distance between each color 
@@ -157,6 +170,7 @@ namespace ImageQuantization
 
             // Initialize all keys 
             // as INFINITE 
+            // COMPLIXTY : EXACT (V)
             for (int i = 0; i < V; i ++ )
             {
                 key[i] = int.MaxValue;
@@ -173,11 +187,13 @@ namespace ImageQuantization
             parent[0] = -1;
 
 
+            // COMPLIXTY : EXACT O(V^2)
             for (int i = 0; i < V; i++)
             {
                 // Pick thd minimum key vertex 
                 // from the set of vertices 
-                // not yet included in MST 
+                // not yet included in MST
+                // COMPLIXTY : EXACT (V)
                 int u = minKey(key, mstSet);
 
                 // Add the picked vertex 
@@ -218,7 +234,7 @@ namespace ImageQuantization
             
             double MSTSum = 0;
             for (int i = 0; i < V; i++ )
-                MSTSum += Math.Round(key[i],2);
+                MSTSum += Math.Round(key[i],6);
 
             MSTSum = Math.Round(MSTSum, 1);
 
