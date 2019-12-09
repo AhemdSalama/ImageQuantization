@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace ImageQuantization
 {
@@ -16,42 +10,16 @@ namespace ImageQuantization
         {
             InitializeComponent();
         }
-        public struct rgbPixel
-        {
-            public int red, green, blue;
-            public rgbPixel(int red , int green , int blue)
-            {
-                this.red = red;
-                this.green = green;
-                this.blue = blue;
-            }
-        }
+        
 
         //***************************************************************
         // DATA DECLERATION 
         //***************************************************************
-        RGBPixel[,] ImageMatrix;
-        SortedSet<int> uniqeColors = new SortedSet<int>();
-        List<Edge> edges = new List<Edge>();
-        List<RGBPixel> ucolors = new List<RGBPixel>();
-        HashSet<RGBPixel> RGBHash = new HashSet<RGBPixel>();
-        static int V; 
-        int height;
-        int width;
+        RGBPixel[,] ImageMatrix;        // our picture
+        private List<Edge> edges = new List<Edge>();
 
         //**************************************************************
-        public static rgbPixel IntToRGB (int value)
-        {
-            var red = (value >> 0) & 255;
-            var green = (value >> 8) & 255;
-            var blue = (value >>16) & 255 ;
-            return new rgbPixel(red, green, blue);
-
-        }
-        public int RGBToInt (int r , int g , int b)
-        {
-            return (r << 0) | (g << 8) | (b << 16);
-        }
+        
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
@@ -75,172 +43,38 @@ namespace ImageQuantization
             ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
         }
 
-
-
-
-
         // Return the function with the smallest cost
-        static int minKey (double[] key, bool []mstSet)
-        {
-            double min = int.MaxValue;int  min_index = -1;
-            for (int v = 0 ; v < V ; v++)
-            {
-                if(mstSet[v] == false && key[v]<min)
-                {
-                    min = key[v];
-                    min_index = v;
-                }
-            }
-            return min_index;
-        }
+        
 
 
         private void btnQ_Click(object sender, EventArgs e)
         {
 
-            // STEP[1] Put Uniqe Colors in set "uniqeColoes"
+            var distinctColors = CountDistinctColors();
 
-            height = ImageOperations.GetHeight(ImageMatrix);
-            width = ImageOperations.GetWidth(ImageMatrix);
-
-            //TIME : O(H*W)
-            //SPACE : O(D^2)
-
-            int counter = uniqeColors.Count;
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    RGBHash.Add(ImageMatrix[i, j]);
-                    int value = RGBToInt(ImageMatrix[i, j].red, ImageMatrix[i, j].green, ImageMatrix[i, j].blue);
-                    uniqeColors.Add(value);
-                    if (uniqeColors.Count > counter)
-                    {
-                        rgbPixel rgb = IntToRGB(value);
-                        RGBPixel rgbcolor = new RGBPixel();
-                        rgbcolor.red = (byte)(rgb.red);
-                        rgbcolor.green = (byte)(rgb.green);
-                        rgbcolor.blue = (byte)(rgb.blue);
-                        ucolors.Add(rgbcolor);
-
-                        counter++;
-                    }
-                }
-            }
-
-
-            //TIME: Exact SIZE OF HASHSET
-           /*
-            foreach (var c in uniqeColors)
-            {
-                rgbPixel rgb = IntToRGB(c);
-                RGBPixel rgbcolor = new RGBPixel();
-                rgbcolor.red = (byte)(rgb.red);
-                rgbcolor.green = (byte)(rgb.green);
-                rgbcolor.blue = (byte)(rgb.blue);
-
-                ucolors.Add(rgbcolor);
-            }
-            */
-
-
-            // STEP[2] Get Distance between each color 
-
-
-            V = uniqeColors.Count;
-            // Key values used to pick 
-            // minimum weight edge in cut 
-            double[] key = new double[V];        // cost of vertices
-
-            // Array to store constructed MST 
-            int[] parent = new int[V];     // parents
-
-            // To represent set of vertices 
-            // not yet included in MST 
-            bool[] mstSet = new bool[V];   // visited verticies
-            
-            double cost = 0;
-            double sum = 0;
-            int dred, dgreen, dblue; // contain deffrence 
-            int size = ucolors.Count;
-            int min_cost = int.MaxValue;
-            int min_Ind = -1;
-            //TIME O(SIZE^2)
-
-
-            // Initialize all keys 
-            // as INFINITE 
-            // COMPLIXTY : EXACT (V)
-            for (int i = 0; i < V; i ++ )
-            {
-                key[i] = int.MaxValue;
-                parent[i] = -1;
-            }
-
-
-
-            // Always include first 1st vertex in MST. 
-            // Make key 0 so that this vertex is 
-            // picked as first vertex 
-            // First node is always root of MST 
-            key[0] = 0;
-            parent[0] = -1;
-
-
-            // COMPLIXTY : EXACT O(V^2)
-            for (int i = 0; i < V; i++)
-            {
-                // Pick thd minimum key vertex 
-                // from the set of vertices 
-                // not yet included in MST
-                // COMPLIXTY : EXACT (V)
-                int u = minKey(key, mstSet);
-
-                // Add the picked vertex 
-                // to the MST Set
-                mstSet[u] = true;
-
-                //To store cost of all edges edges coneected 
-                //To the vertive I Picked
-                //Fill It Everytime 
-                //Edge edge;
-
-                //Loop To Get the Minmum Cost for edge connedted to the picked V
-                for (int j = 0 ; j < V; j++)
-                {
-                    dred = ucolors[u].red - ucolors[j].red;
-                    dgreen = ucolors[u].green - ucolors[j].green;
-                    dblue = ucolors[u].blue - ucolors[j].blue;
-                    sum = (dred * dred) + (dgreen * dgreen) + (dblue * dblue);
-                    cost = Math.Sqrt(sum);
-                    //edge = new Edge(j, i, cost);
-
-                    //edges.Add(edge);
-
-                    // graph[u][v] is non zero only 
-                    // for adjacent vertices of m 
-                    // mstSet[v] is false for vertices 
-                    // not yet included in MST Update 
-                    // the key only if graph[u][v] is 
-                    // smaller than key[v] 
-                    if (mstSet[j]== false && cost < key[j] && u != j)
-                    {
-                        parent[j] = u;
-                        key[j] = cost;
-                    }
-                }
-                
-            }
-            
-            double MSTSum = 0;
-            for (int i = 0; i < V; i++ )
-                MSTSum += Math.Round(key[i],6);
-
-            MSTSum = Math.Round(MSTSum, 1);
+            var prim = new Prim(distinctColors.Count);
+            var ans = prim.MstPrim(distinctColors);
 
         }
 
-       
-       
+        private List<RgbPixel> CountDistinctColors()
+        {
+            var uniqeColors = new SortedSet<int>();
+            var uColors = new List<RgbPixel>();
+
+            foreach (var pixel in ImageMatrix)
+            {
+                var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();
+                uniqeColors.Add(color);
+            }
+
+            foreach (var uniqeColor in uniqeColors)
+            {
+                var color = RgbPixel.IntToRGB(uniqeColor);
+                uColors.Add(color);
+            }
+
+            return uColors;
+        }
     }
 }
