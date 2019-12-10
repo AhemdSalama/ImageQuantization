@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace ImageQuantization
 {
@@ -42,5 +43,6 @@ namespace ImageQuantization
             RgbPixel p = new RgbPixel(pixel.red, pixel.green, pixel.blue);
             return p;
         }
+
     }
 }
