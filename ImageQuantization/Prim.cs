@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ImageQuantization
 {
@@ -66,7 +64,7 @@ namespace ImageQuantization
 
             foreach (var d in _key)
             {
-                mstCost += Math.Round(d, 6);
+                mstCost +=d;
             }
 
             return Math.Round(mstCost, 1);

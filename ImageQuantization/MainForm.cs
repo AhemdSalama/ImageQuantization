@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace ImageQuantization
@@ -10,17 +11,8 @@ namespace ImageQuantization
         {
             InitializeComponent();
         }
-        
 
-        //***************************************************************
-        // DATA DECLERATION 
-        //***************************************************************
         RGBPixel[,] ImageMatrix;        // our picture
-        private List<Edge> edges = new List<Edge>();
-
-        //**************************************************************
-        
-
         private void btnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -49,32 +41,45 @@ namespace ImageQuantization
 
         private void btnQ_Click(object sender, EventArgs e)
         {
-
+            var distTime = new Stopwatch();
+            distTime.Start();
             var distinctColors = CountDistinctColors();
+            distTime.Stop();
+            txtDistinctColors.Text = distinctColors.Count.ToString();
+            txtDistinctColorsTime.Text = distTime.Elapsed.ToString();
 
+            var mstTime = new Stopwatch();
+            mstTime.Start();
             var prim = new Prim(distinctColors.Count);
             var ans = prim.MstPrim(distinctColors);
-
+            mstTime.Stop();
+            txtMstCost.Text = ans.ToString();
+            txtMstCostTime.Text = mstTime.Elapsed.ToString();
         }
 
         private List<RgbPixel> CountDistinctColors()
         {
-            var uniqeColors = new SortedSet<int>();
+            var uniqColors = new SortedSet<int>();
             var uColors = new List<RgbPixel>();
 
             foreach (var pixel in ImageMatrix)
             {
                 var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();
-                uniqeColors.Add(color);
+                uniqColors.Add(color);
             }
 
-            foreach (var uniqeColor in uniqeColors)
+            foreach (var uniqColor in uniqColors)
             {
-                var color = RgbPixel.IntToRGB(uniqeColor);
+                var color = RgbPixel.IntToRGB(uniqColor);
                 uColors.Add(color);
             }
 
             return uColors;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

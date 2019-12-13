@@ -47,6 +47,13 @@ namespace ImageQuantization
             this.btnQ = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.kvalue = new System.Windows.Forms.TextBox();
+            this.txtDistinctColors = new System.Windows.Forms.MaskedTextBox();
+            this.txtMstCost = new System.Windows.Forms.MaskedTextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtMstCostTime = new System.Windows.Forms.MaskedTextBox();
+            this.txtDistinctColorsTime = new System.Windows.Forms.MaskedTextBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaskSize)).BeginInit();
@@ -75,7 +82,7 @@ namespace ImageQuantization
             // btnOpen
             // 
             this.btnOpen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpen.Location = new System.Drawing.Point(170, 423);
+            this.btnOpen.Location = new System.Drawing.Point(194, 423);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(82, 62);
             this.btnOpen.TabIndex = 2;
@@ -106,7 +113,7 @@ namespace ImageQuantization
             // btnGaussSmooth
             // 
             this.btnGaussSmooth.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGaussSmooth.Location = new System.Drawing.Point(653, 424);
+            this.btnGaussSmooth.Location = new System.Drawing.Point(194, 514);
             this.btnGaussSmooth.Name = "btnGaussSmooth";
             this.btnGaussSmooth.Size = new System.Drawing.Size(82, 62);
             this.btnGaussSmooth.TabIndex = 5;
@@ -118,7 +125,7 @@ namespace ImageQuantization
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(741, 426);
+            this.label3.Location = new System.Drawing.Point(14, 514);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 16);
             this.label3.TabIndex = 7;
@@ -128,7 +135,7 @@ namespace ImageQuantization
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(741, 465);
+            this.label4.Location = new System.Drawing.Point(14, 553);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(88, 16);
             this.label4.TabIndex = 9;
@@ -137,7 +144,7 @@ namespace ImageQuantization
             // txtHeight
             // 
             this.txtHeight.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHeight.Location = new System.Drawing.Point(91, 462);
+            this.txtHeight.Location = new System.Drawing.Point(108, 458);
             this.txtHeight.Name = "txtHeight";
             this.txtHeight.ReadOnly = true;
             this.txtHeight.Size = new System.Drawing.Size(57, 23);
@@ -151,7 +158,7 @@ namespace ImageQuantization
             0,
             0,
             0});
-            this.nudMaskSize.Location = new System.Drawing.Point(835, 424);
+            this.nudMaskSize.Location = new System.Drawing.Point(108, 512);
             this.nudMaskSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -174,7 +181,7 @@ namespace ImageQuantization
             // txtWidth
             // 
             this.txtWidth.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWidth.Location = new System.Drawing.Point(91, 424);
+            this.txtWidth.Location = new System.Drawing.Point(108, 420);
             this.txtWidth.Name = "txtWidth";
             this.txtWidth.ReadOnly = true;
             this.txtWidth.Size = new System.Drawing.Size(57, 23);
@@ -184,7 +191,7 @@ namespace ImageQuantization
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(36, 427);
+            this.label5.Location = new System.Drawing.Point(14, 423);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 16);
             this.label5.TabIndex = 12;
@@ -194,7 +201,7 @@ namespace ImageQuantization
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(36, 465);
+            this.label6.Location = new System.Drawing.Point(14, 461);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 16);
             this.label6.TabIndex = 13;
@@ -203,7 +210,7 @@ namespace ImageQuantization
             // txtGaussSigma
             // 
             this.txtGaussSigma.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGaussSigma.Location = new System.Drawing.Point(835, 462);
+            this.txtGaussSigma.Location = new System.Drawing.Point(108, 550);
             this.txtGaussSigma.Name = "txtGaussSigma";
             this.txtGaussSigma.Size = new System.Drawing.Size(57, 23);
             this.txtGaussSigma.TabIndex = 14;
@@ -233,7 +240,7 @@ namespace ImageQuantization
             // btnQ
             // 
             this.btnQ.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQ.Location = new System.Drawing.Point(339, 423);
+            this.btnQ.Location = new System.Drawing.Point(412, 473);
             this.btnQ.Name = "btnQ";
             this.btnQ.Size = new System.Drawing.Size(82, 62);
             this.btnQ.TabIndex = 17;
@@ -245,7 +252,7 @@ namespace ImageQuantization
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(440, 462);
+            this.label7.Location = new System.Drawing.Point(509, 486);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(16, 16);
             this.label7.TabIndex = 18;
@@ -254,16 +261,81 @@ namespace ImageQuantization
             // kvalue
             // 
             this.kvalue.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kvalue.Location = new System.Drawing.Point(462, 458);
+            this.kvalue.Location = new System.Drawing.Point(623, 479);
             this.kvalue.Name = "kvalue";
             this.kvalue.Size = new System.Drawing.Size(57, 23);
             this.kvalue.TabIndex = 19;
+            // 
+            // txtDistinctColors
+            // 
+            this.txtDistinctColors.Location = new System.Drawing.Point(623, 515);
+            this.txtDistinctColors.Name = "txtDistinctColors";
+            this.txtDistinctColors.Size = new System.Drawing.Size(57, 20);
+            this.txtDistinctColors.TabIndex = 21;
+            // 
+            // txtMstCost
+            // 
+            this.txtMstCost.Location = new System.Drawing.Point(623, 549);
+            this.txtMstCost.Name = "txtMstCost";
+            this.txtMstCost.Size = new System.Drawing.Size(57, 20);
+            this.txtMstCost.TabIndex = 22;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(509, 515);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(110, 16);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "#Distinct Colors";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(509, 549);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 16);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Mst Cost";
+            // 
+            // txtMstCostTime
+            // 
+            this.txtMstCostTime.Location = new System.Drawing.Point(696, 549);
+            this.txtMstCostTime.Name = "txtMstCostTime";
+            this.txtMstCostTime.Size = new System.Drawing.Size(57, 20);
+            this.txtMstCostTime.TabIndex = 28;
+            // 
+            // txtDistinctColorsTime
+            // 
+            this.txtDistinctColorsTime.Location = new System.Drawing.Point(696, 515);
+            this.txtDistinctColorsTime.Name = "txtDistinctColorsTime";
+            this.txtDistinctColorsTime.Size = new System.Drawing.Size(57, 20);
+            this.txtDistinctColorsTime.TabIndex = 27;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(693, 448);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 16);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "Time/ms";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 500);
+            this.ClientSize = new System.Drawing.Size(904, 607);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtMstCostTime);
+            this.Controls.Add(this.txtDistinctColorsTime);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtMstCost);
+            this.Controls.Add(this.txtDistinctColors);
             this.Controls.Add(this.kvalue);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnQ);
@@ -283,6 +355,7 @@ namespace ImageQuantization
             this.Controls.Add(this.btnOpen);
             this.Name = "MainForm";
             this.Text = "Image Quantization...";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaskSize)).EndInit();
@@ -316,6 +389,13 @@ namespace ImageQuantization
         private System.Windows.Forms.Button btnQ;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox kvalue;
+        private System.Windows.Forms.MaskedTextBox txtDistinctColors;
+        private System.Windows.Forms.MaskedTextBox txtMstCost;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.MaskedTextBox txtMstCostTime;
+        private System.Windows.Forms.MaskedTextBox txtDistinctColorsTime;
+        private System.Windows.Forms.Label label10;
     }
 }
 
