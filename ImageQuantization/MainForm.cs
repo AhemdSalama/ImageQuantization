@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Windows.Forms;
+=======
+>>>>>>> primAlgo
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace ImageQuantization
 {
@@ -11,6 +15,7 @@ namespace ImageQuantization
         {
             InitializeComponent();
         }
+<<<<<<< HEAD
         public struct rgbPixel
         {
             public int red, green, blue;
@@ -40,7 +45,10 @@ namespace ImageQuantization
         {
             return (r << 0) | (g << 8) | (b << 16);
         }
+=======
+>>>>>>> primAlgo
 
+        RGBPixel[,] ImageMatrix;        // our picture
         private void btnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -59,13 +67,14 @@ namespace ImageQuantization
         {
             double sigma = double.Parse(txtGaussSigma.Text);
             int maskSize = (int)nudMaskSize.Value ;
-            //********************
+            ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
+            ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
+        }
 
-            // STEP[1] Put Uniqe Colors in set "uniqeColoes"
-           
-            height = ImageOperations.GetHeight(ImageMatrix);
-            width = ImageOperations.GetWidth(ImageMatrix);
+        // Return the function with the smallest cost
+        
 
+<<<<<<< HEAD
             //TIME : O(H*W)
             //SPACE : O(D^2)
             for (int i = 0; i < height;i++ )
@@ -96,25 +105,50 @@ namespace ImageQuantization
 
             //TIME O(SIZE^2)
             for (int i = 0; i < size; i++)
-            {
-                for (int j = i+1; j < size; j++)
-                {
-                    dred = ucolors[i].red - ucolors[j].red;
-                    dgreen = ucolors[i].green - ucolors[j].green;
-                    dblue = ucolors[i].blue - ucolors[j].blue;
-                    sum = (dred * dred) + (dgreen * dgreen) + (dblue * dblue);
-                    cost = Math.Sqrt(sum);
-                    edge = new Edge(i, j, cost);
-                    edges.Add(edge);
-                }
-            }
+=======
 
-                //********************
-                ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
-            ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
+        private void btnQ_Click(object sender, EventArgs e)
+        {
+            var distTime = new Stopwatch();
+            distTime.Start();
+            var distinctColors = CountDistinctColors();
+            distTime.Stop();
+            txtDistinctColors.Text = distinctColors.Count.ToString();
+            txtDistinctColorsTime.Text = distTime.Elapsed.ToString();
+
+            var mstTime = new Stopwatch();
+            mstTime.Start();
+            var prim = new Prim(distinctColors.Count);
+            var ans = prim.MstPrim(distinctColors);
+            mstTime.Stop();
+            txtMstCost.Text = ans.ToString();
+            txtMstCostTime.Text = mstTime.Elapsed.ToString();
         }
 
-       
-       
+        private List<RgbPixel> CountDistinctColors()
+        {
+            var uniqColors = new SortedSet<int>();
+            var uColors = new List<RgbPixel>();
+
+            foreach (var pixel in ImageMatrix)
+            {
+                var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();
+                uniqColors.Add(color);
+            }
+
+            foreach (var uniqColor in uniqColors)
+>>>>>>> primAlgo
+            {
+                var color = RgbPixel.IntToRGB(uniqColor);
+                uColors.Add(color);
+            }
+
+            return uColors;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
