@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ImageQuantization
 {
@@ -27,47 +28,53 @@ namespace ImageQuantization
             _parent[0] = -1;
         }
 
-        private int minKey()
-        {
-            double min = Int32.MaxValue; int minIndex = -1;
-            for (int v = 0; v < _VertixSize; v++)
-            {
-                if (_visted[v] == false && _key[v] < min)
-                {
-                    min = _key[v];
-                    minIndex = v;
-                }
-            }
-            return minIndex;
-        }
+        //private int minKey()
+        //{
+        //    double min = Int32.MaxValue; int minIndex = -1;
+        //    for (int v = 0; v < _VertixSize; v++)
+        //    {
+        //        if (_visted[v] == false && _key[v] < min)
+        //        {
+        //            min = _key[v];
+        //            minIndex = v;
+        //        }
+        //    }
+        //    return minIndex;
+        //}
 
-        public double MstPrim(List<RgbPixel>distinctColors)
+        public double MstPrim(List<RgbPixel> distinctColors)
         {
-            for (int i = 0; i < _VertixSize; i++)
+            var mstCost = 0d;
+            int u = 0, curntNode = 0;
+            _key[0] = 0;
+            _parent[0] = -1;
+            for (int i = 0; i < _VertixSize-1; i++)
             {
-                var u = minKey();
                 _visted[u] = true;
-
+                double miniCost = Int32.MaxValue;
                 for (int j = 0; j < _VertixSize; j++)
                 {
-                    var cost = RgbPixel.EuclideanDistance(distinctColors[u], distinctColors[j]);
 
-                    if (_visted[j] == false && cost < _key[j] && u != j)
+                    if (_visted[j] == false)
                     {
-                        _parent[j] = u;
-                        _key[j] = cost;
+                        var cost = RgbPixel.EuclideanDistance(distinctColors[u], distinctColors[j]);
+                        if (cost < _key[j])
+                        {
+                            _parent[j] = u;
+                            _key[j] = cost;
+                        }
+                        if (_key[j] < miniCost)
+                        {
+                            curntNode = j;
+                            miniCost = _key[j];
+                        }
                     }
                 }
+                u = curntNode;
+                mstCost += _key[u];
             }
-
-            var mstCost = 0d;
-
-            foreach (var d in _key)
-            {
-                mstCost +=d;
-            }
-
-            return Math.Round(mstCost, 1);
+            
+            return Math.Round(mstCost, 2);
         }
     }
 }
