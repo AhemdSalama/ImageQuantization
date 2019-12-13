@@ -50,31 +50,44 @@ namespace ImageQuantization
         private void btnQ_Click(object sender, EventArgs e)
         {
 
-            var distinctColors = CountDistinctColors();
-
-            var prim = new Prim(distinctColors.Count);
-            var ans = prim.MstPrim(distinctColors);
-
+            var distinctColors = CountDistinctColors(); // Exact(N*M)
+            var prim = new Prim(distinctColors.Count);    // Exact(1)
+            var ans = prim.MstPrim(distinctColors);      // Exact(V^2) 
+            //List<int>[] graph = new List<int>[6];
+            //graph[0] = new List<int>(6);
+            //graph[1] = new List<int>(6);
+            //graph[1].Add(2);
+            //graph[2] = new List<int>(6);
+            //graph[2].Add(1);
+            //graph[3] = new List<int>(6);
+            //graph[3].Add(4);
+            //graph[3].Add(5);
+            //graph[4] = new List<int>(6);
+            //graph[4].Add(3);
+            //graph[5] = new List<int>(6);
+            //graph[5].Add(3);
+            //var dfs = new DFS(6, graph).Get_Palette(3);
         }
-
-        private List<RgbPixel> CountDistinctColors()
+        private List<RgbPixel> CountDistinctColors()  // Max between [ Exact(N*M) ,  Exact(#Unique Colors) ] -> Exact(N*M)
         {
-            var uniqeColors = new SortedSet<int>();
-            var uColors = new List<RgbPixel>();
+            var uniqeColors = new SortedSet<int>(); // Exact(1)
+            var uColors = new List<RgbPixel>();     // Exact(1)
 
-            foreach (var pixel in ImageMatrix)
+            // Exact(N*M)
+            foreach (var pixel in ImageMatrix)     // Exact(N*M) * (Body)
             {
-                var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();
-                uniqeColors.Add(color);
-            }
+                var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();    // Exact(1)
+                uniqeColors.Add(color);   // Exact(1)
+            }   //Body -> Exact(1)
 
-            foreach (var uniqeColor in uniqeColors)
+            // Exact(#Unique Colors)
+            foreach (var uniqeColor in uniqeColors)    // Exact(#Unique Colors) * Body
             {
-                var color = RgbPixel.IntToRGB(uniqeColor);
-                uColors.Add(color);
-            }
+                var color = RgbPixel.IntToRGB(uniqeColor);    // Exact(1)
+                uColors.Add(color);   // Exact(1)
+            }     //Body -> Exact(1)
 
-            return uColors;
+            return uColors;  // Exact(1)
         }
     }
 }

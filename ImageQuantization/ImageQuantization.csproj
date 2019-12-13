@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DFS.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
