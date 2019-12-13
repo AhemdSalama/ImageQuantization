@@ -13,8 +13,8 @@ namespace ImageQuantization
         public Prim(int n)
         {
             _VertixSize = n;
-            _key = new double[n];
-            _parent = new int[n];
+            _key = new double[n];   // array of cost
+            _parent = new int[n];   // array of parent
             _visted = new bool[n];
 
             for (int i = 0; i < n; i++)
@@ -27,7 +27,7 @@ namespace ImageQuantization
             _parent[0] = -1;
         }
 
-        private int minKey()
+        private int MinKey()
         {
             double min = Int32.MaxValue; int minIndex = -1;
             for (int v = 0; v < _VertixSize; v++)
@@ -45,14 +45,14 @@ namespace ImageQuantization
         {
             for (int i = 0; i < _VertixSize; i++)
             {
-                var u = minKey();
+                var u = MinKey();
                 _visted[u] = true;
 
                 for (int j = 0; j < _VertixSize; j++)
                 {
                     var cost = RgbPixel.EuclideanDistance(distinctColors[u], distinctColors[j]);
 
-                    if (_visted[j] == false && cost < _key[j] && u != j)
+                    if (_visted[j] == false && cost < _key[j])
                     {
                         _parent[j] = u;
                         _key[j] = cost;
