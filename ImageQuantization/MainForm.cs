@@ -41,6 +41,7 @@ namespace ImageQuantization
 
         private void btnQ_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             var distTime = new Stopwatch();
             distTime.Start();
             var distinctColors = CountDistinctColors();
@@ -55,15 +56,28 @@ namespace ImageQuantization
             mstTime.Stop();
             txtMstCost.Text = ans.ToString();
             txtMstCostTime.Text = mstTime.Elapsed.ToString();
-        }
+=======
 
-        private List<RgbPixel> CountDistinctColors()
+            var distinctColors = CountDistinctColors(); // Exact(N*M)
+            var prim = new Prim(distinctColors.Count);    // Exact(1)
+            var ans = prim.MstPrim(distinctColors);      // Exact(V^2) 
+        
+>>>>>>> DFSandAVG
+        }
+        private List<RgbPixel> CountDistinctColors()  // Max between [ Exact(N*M) ,  Exact(#Unique Colors) ] -> Exact(N*M)
         {
+<<<<<<< HEAD
             var uniqColors = new SortedSet<int>();
             var uColors = new List<RgbPixel>();
+=======
+            var uniqeColors = new SortedSet<int>(); // Exact(1)
+            var uColors = new List<RgbPixel>();     // Exact(1)
+>>>>>>> DFSandAVG
 
-            foreach (var pixel in ImageMatrix)
+            // Exact(N*M)
+            foreach (var pixel in ImageMatrix)     // Exact(N*M) * (Body)
             {
+<<<<<<< HEAD
                 var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();
                 uniqColors.Add(color);
             }
@@ -73,8 +87,20 @@ namespace ImageQuantization
                 var color = RgbPixel.IntToRGB(uniqColor);
                 uColors.Add(color);
             }
+=======
+                var color = RgbPixel.ConvertToRgbPixel(pixel).RGBToInt();    // Exact(1)
+                uniqeColors.Add(color);   // Exact(1)
+            }   //Body -> Exact(1)
 
-            return uColors;
+            // Exact(#Unique Colors)
+            foreach (var uniqeColor in uniqeColors)    // Exact(#Unique Colors) * Body
+            {
+                var color = RgbPixel.IntToRGB(uniqeColor);    // Exact(1)
+                uColors.Add(color);   // Exact(1)
+            }     //Body -> Exact(1)
+>>>>>>> DFSandAVG
+
+            return uColors;  // Exact(1)
         }
 
         private void MainForm_Load(object sender, EventArgs e)
