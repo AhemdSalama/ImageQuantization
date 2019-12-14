@@ -53,20 +53,7 @@ namespace ImageQuantization
             var distinctColors = CountDistinctColors(); // Exact(N*M)
             var prim = new Prim(distinctColors.Count);    // Exact(1)
             var ans = prim.MstPrim(distinctColors);      // Exact(V^2) 
-            //List<int>[] graph = new List<int>[6];
-            //graph[0] = new List<int>(6);
-            //graph[1] = new List<int>(6);
-            //graph[1].Add(2);
-            //graph[2] = new List<int>(6);
-            //graph[2].Add(1);
-            //graph[3] = new List<int>(6);
-            //graph[3].Add(4);
-            //graph[3].Add(5);
-            //graph[4] = new List<int>(6);
-            //graph[4].Add(3);
-            //graph[5] = new List<int>(6);
-            //graph[5].Add(3);
-            //var dfs = new DFS(6, graph).Get_Palette(3);
+        
         }
         private List<RgbPixel> CountDistinctColors()  // Max between [ Exact(N*M) ,  Exact(#Unique Colors) ] -> Exact(N*M)
         {
