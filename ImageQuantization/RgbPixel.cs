@@ -46,5 +46,6 @@ namespace ImageQuantization
             pxl.green = (byte)(p1.green + p2.green);     // Exact(1)
             return pxl;   // // Exact(1)
         }
+
     }
 }

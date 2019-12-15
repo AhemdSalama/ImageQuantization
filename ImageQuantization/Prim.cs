@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ImageQuantization
 {
@@ -11,65 +9,57 @@ namespace ImageQuantization
         private double[] _key;
         private int[] _parent;
         private bool[] _visted;
+        public List<Edge> edges;
 
-        public Prim(int n)
+        public Prim(int n)  // Θ(n)
         {
-            _VertixSize = n;
-            _key = new double[n];
-            _parent = new int[n];
-            _visted = new bool[n];
+            _VertixSize = n;        // Θ(1)
+            _key = new double[n];   // Θ(1)
+            _parent = new int[n];   // Θ(1)
+            _visted = new bool[n];  // Θ(1)
+            edges = new List<Edge>(); // Θ(1)
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++) // Θ(n * body)
             {
-                _key[i] = Int32.MaxValue;
-                _parent[i] = -1;
+                _key[i] = Int32.MaxValue;   // Θ(1)
+                _parent[i] = -1;            // Θ(1)
             }
-
-            _key[0] = 0;
-            _parent[0] = -1;
         }
 
-        private int minKey()
+        public double MstPrim(List<RgbPixel> distinctColors)    // Θ(V^2)
         {
-            double min = Int32.MaxValue; int minIndex = -1;
-            for (int v = 0; v < _VertixSize; v++)
+            var mstCost = 0d;   // Θ(1)
+            int startNode = 0, nextNode = 0; // Θ(1)
+            _key[0] = 0;    // Θ(1)
+            _parent[0] = 0;    // Θ(1)
+            for (var i = 0; i < _VertixSize - 1; i++) // Θ(v * body)
             {
-                if (_visted[v] == false && _key[v] < min)
+                _visted[startNode] = true;  // Θ(1)
+                double miniCost = Int32.MaxValue;   // Θ(1)
+                for (var j = 0; j < _VertixSize; j++)   // Θ(v * body)
                 {
-                    min = _key[v];
-                    minIndex = v;
-                }
-            }
-            return minIndex;
-        }
 
-        public double MstPrim(List<RgbPixel>distinctColors)
-        {
-            for (int i = 0; i < _VertixSize; i++)
-            {
-                var u = minKey();
-                _visted[u] = true;
-
-                for (int j = 0; j < _VertixSize; j++)
-                {
-                    var cost = RgbPixel.EuclideanDistance(distinctColors[u], distinctColors[j]);
-
-                    if (_visted[j] == false && cost < _key[j] && u != j)
+                    if (_visted[j] == false)    // Θ(1)
                     {
-                        _parent[j] = u;
-                        _key[j] = cost;
+                        var cost = RgbPixel.EuclideanDistance(distinctColors[startNode], distinctColors[j]);    // Θ(1)
+                        if (cost < _key[j]) // Θ(1)
+                        {
+                            _parent[j] = startNode; // Θ(1)
+                            _key[j] = cost; // Θ(1)
+                        }
+                        if (_key[j] < miniCost) // Θ(1)
+                        {
+                            nextNode = j;    // Θ(1)
+                            miniCost = _key[j]; // Θ(1)
+                        }
                     }
                 }
+                startNode = nextNode;    // Θ(1)
+                mstCost += _key[startNode]; // Θ(1)
+                edges.Add(new Edge(startNode, _parent[startNode], _key[startNode])); // Θ(1)
             }
 
-            var mstCost = 0d;
-
-            foreach (var d in _key)
-            {
-                mstCost += Math.Round(d, 6);
-            }
-
-            return Math.Round(mstCost, 1);
+            return Math.Round(mstCost, 2);  // Θ(1)
         }
     }
 }
