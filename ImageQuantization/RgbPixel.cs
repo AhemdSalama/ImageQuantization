@@ -22,6 +22,7 @@ namespace ImageQuantization
         {
             return (red << 0) | (green << 8) | (blue << 16);    // Exact(1)
         }
+
         public static double EuclideanDistance(RgbPixel p1, RgbPixel p2)   // Exact(1)
         {
             int redDistance = p1.red - p2.red;    // Exact(1)

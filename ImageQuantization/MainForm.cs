@@ -68,6 +68,7 @@ namespace ImageQuantization
             //graph[5].Add(3);
             //var dfs = new DFS(6, graph).Get_Palette(3);
         }
+
         private List<RgbPixel> CountDistinctColors()  // Max between [ Exact(N*M) ,  Exact(#Unique Colors) ] -> Exact(N*M)
         {
             var uniqeColors = new SortedSet<int>(); // Exact(1)
@@ -89,5 +90,6 @@ namespace ImageQuantization
 
             return uColors;  // Exact(1)
         }
+
     }
 }
