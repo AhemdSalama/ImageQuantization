@@ -47,13 +47,15 @@ namespace ImageQuantization
             return Palette;  // Exact(1)
         }
         // Exact(1)
-        public void DepthFirstSearch(int Node)
+        public void DepthFirstSearch(int Node)  //
         {
             DFStack.Push(Node); // Exact(1)
             IsVisited[Node] = 1;  // Exact(1)
             while (DFStack.Count!=0)    // Exact(V) * Body
             {
                 int CurrentNode = DFStack.Pop(); // Exact(1)
+                IsVisited[CurrentNode] = 1;  // Exact(1)
+
                 numOfConnectedComponents++;   // Exact(1)
                 RSum += _distinctColors[CurrentNode].red;  // Exact(1)
                 BSum += _distinctColors[CurrentNode].blue;   // Exact(1)
