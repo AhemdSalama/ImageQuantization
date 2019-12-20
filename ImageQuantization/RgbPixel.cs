@@ -23,14 +23,14 @@ namespace ImageQuantization
             return (red << 0) | (green << 8) | (blue << 16);    // Exact(1)
         }
 
-        public static double EuclideanDistance(RgbPixel p1, RgbPixel p2)   // Exact(1)
+        public static double EuclideanDistanceSquared(RgbPixel p1, RgbPixel p2)   // Exact(1)
         {
             int redDistance = p1.red - p2.red;    // Exact(1)
             int greenDistance = p1.green - p2.green;   // Exact(1)
             int blueDistance = p1.blue - p2.blue;   // Exact(1)
             // Exact(1)
             double squareDistance = redDistance * redDistance + greenDistance * greenDistance + blueDistance * blueDistance;
-            return Math.Sqrt(squareDistance);   // Exact(1)
+            return squareDistance;   // Exact(1)
         }
         public static RgbPixel ConvertToRgbPixel(RGBPixel pixel)    // Exact(1)
         {

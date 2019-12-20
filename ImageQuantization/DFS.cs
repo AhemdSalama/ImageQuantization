@@ -12,9 +12,10 @@ namespace ImageQuantization
         private Stack<int> DFStack;   // Exact(1)
         private List<RgbPixel> _distinctColors;   // Exact(1)
         private List<int>[] MST_Graph;   // Exact(1)
-
-        public DFS(int NumOFnodes , List<int>[] MST_Graph , List<RgbPixel> colors) 
+        Stack<int> clusterColors;
+        public DFS(int NumOFnodes , List<int>[] MST_Graph , List<RgbPixel> colors ) 
         {
+            clusterColors = new Stack<int>();
             this.NumOFnodes = NumOFnodes; // Exact(1)
             IsVisited = new int[NumOFnodes]; // Exact(1)
             DFStack = new Stack<int>(NumOFnodes); // Exact(1)
@@ -29,7 +30,7 @@ namespace ImageQuantization
         int numOfConnectedComponents = 0;  // Exact(1)
         int RSum = 0, BSum = 0, GSum = 0;   // Exact(1)
 
-        public RgbPixel[] Get_Palette(int k)
+        public RgbPixel[] Get_Palette(int k , ref RgbPixel[] ColorsAvg)
         {
             RgbPixel[] Palette = new RgbPixel[k]; // Exact(1)
             int indx = 0;   // Exact(1)
@@ -40,8 +41,12 @@ namespace ImageQuantization
                     DepthFirstSearch(i); 
                     // Exact(1)
                     Palette[indx] = new RgbPixel(Convert.ToByte(RSum / numOfConnectedComponents), Convert.ToByte(GSum / numOfConnectedComponents), Convert.ToByte(BSum / numOfConnectedComponents));
-                    indx++;  // Exact(1)
                     RSum = BSum = GSum = numOfConnectedComponents = 0;  // Exact(1)
+                    while(clusterColors.Count!=0)
+                    {
+                        ColorsAvg[clusterColors.Pop()] = Palette[indx];
+                    }
+                    indx++;   // Exact(1)
                 }
             }
             return Palette;  // Exact(1)
@@ -49,13 +54,13 @@ namespace ImageQuantization
         // Exact(1)
         public void DepthFirstSearch(int Node)  //
         {
+            
             DFStack.Push(Node); // Exact(1)
             IsVisited[Node] = 1;  // Exact(1)
             while (DFStack.Count!=0)    // Exact(V) * Body
             {
                 int CurrentNode = DFStack.Pop(); // Exact(1)
                 IsVisited[CurrentNode] = 1;  // Exact(1)
-
                 numOfConnectedComponents++;   // Exact(1)
                 RSum += _distinctColors[CurrentNode].red;  // Exact(1)
                 BSum += _distinctColors[CurrentNode].blue;   // Exact(1)
@@ -66,6 +71,9 @@ namespace ImageQuantization
                         DFStack.Push(MST_Graph[CurrentNode][j]);    // Exact(1)
                 } 
                 IsVisited[CurrentNode] = 2;   // Exact(1)
+                int Colorint = (_distinctColors[CurrentNode].red << 0) | (_distinctColors[CurrentNode].green << 8) | (_distinctColors[CurrentNode].blue << 16);
+
+                clusterColors.Push(Colorint);
             }
             //IsVisited[Node] = 1;
             //numOfConnectedComponents++;

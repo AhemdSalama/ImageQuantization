@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1stBonus.cs" />
     <Compile Include="DFS.cs" />
     <Compile Include="Edge.cs" />
+    <Compile Include="KthLargest_Algo2.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

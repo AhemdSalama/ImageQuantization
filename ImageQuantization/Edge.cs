@@ -5,15 +5,22 @@ using System.Text;
 
 namespace ImageQuantization
 {
-    class Edge
+ 
+    class Edge : IComparable<Edge>
     {
         public int to, from;
-        double cost;
+        public double cost;
         public Edge(int to , int from , double cost)
         {
             this.to = to;
             this.from = from;
             this.cost = cost;
         }
+       public int CompareTo(Edge other)
+        {
+            
+            return this.cost.CompareTo(other.cost);
+        }
+       
     }
 }
